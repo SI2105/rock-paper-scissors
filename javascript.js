@@ -11,17 +11,29 @@ function playRound(playerSelection, computerSelection){
     //Evaluates who wins out of player and computer Selections.
     playerSelection = playerSelection.toUpperCase()
 
+    let resultarea = document.querySelector('.result');
+    let result = document.createElement('p')
+    resultarea.appendChild(result)
+    let computerpoint = document.querySelector('#computer');
+    let playerpoint = document.querySelector('#player');
+
 
     //Check for case when Player Chooses Rock
     if(playerSelection === 'ROCK'){
         if(computerSelection === 'PAPER'){
-        
-            return ('You Lose! Paper beats Rock'),false;
-        }
+
+            result.textContent = 'You Lose! Paper beats Rock' ;
+            let score = computerpoint.textContent; 
+            score++;
+            computerpoint.textContent = score;
+        }   
 
         else if (computerSelection === 'SCISSORS'){
             
-            return('You Win, Rock beats Scissors'),true;
+            result.textContent = 'You Win, Rock beats Scissors';
+            let score = computerpoint.textContent; 
+            score++;
+            playerpoint.textContent = score;
         }
     }
 
@@ -29,11 +41,17 @@ function playRound(playerSelection, computerSelection){
     else if(playerSelection === 'PAPER'){
         if (computerSelection === 'SCISSORS'){
             
-            return ('You Lose!, Scissors beats Paper'),false;
+            result.textContent = 'You Lose!, Scissors beats Paper';
+            let score = computerpoint.textContent; 
+            score++;
+            computerpoint.textContent = score;
         } 
         else if (computerSelection === 'ROCK'){
             
-            return ('You Win, Paper beats Rock'),true;
+            result.textContent ='You Win, Paper beats Rock';
+            let score = computerpoint.textContent; 
+            score++;
+            playerpoint.textContent = score;
         }
     }
 
@@ -41,26 +59,34 @@ function playRound(playerSelection, computerSelection){
     else if (playerSelection === 'SCISSORS'){
         if (computerSelection === 'ROCK'){
             
-            return ('You Lose!, Rock beats Scissors'),false;
+            result.textContent = 'You Lose!, Rock beats Scissors';
+            let score = computerpoint.textContent; 
+            score++;
+            computerpoint.textContent = score;
         }
 
         else if (computerSelection === 'PAPER'){
             
-            return ('You Win! Scissors beats Paper'),true;
+            result.textContent = 'You Win! Scissors beats Paper';
+            let score = computerpoint.textContent; 
+            score++;
+            playerpoint.textContent = score;
         }
+        
 
     }
 
     //Calls the recursively in Case Of Ties Or invalid input
-    playRound(getPlayerChoice("Enter choice again"), getComputerChoice())
+    if(playerpoint.textContent == 5){
+        alert('Player Won')
+        location.reload()
+    }
+    else if(computerpoint.textContent == 5){
+        alert('Computer Won')
+        location.reload()
+    }
 
     
-
-    
-}
-function getPlayerChoice(string){
-    PlayerChoice = prompt(string);
-    return PlayerChoice;
 }
 function game(){
     //Function runs a best-of-five game that keeps 
@@ -68,29 +94,26 @@ function game(){
     let playerwins = 0;
     let compwins = 0;
 
-    for (let i = 0; i<5; i++ ){
-        //Loops for 5 rounds
-        let stringresult, boolresult = playRound(getPlayerChoice("Please enter your choice for Round: " + (i+1)), getComputerChoice())
-        if (boolresult){
-            playerwins += 1;
-        }
+    let buttoncontainer = document.querySelector('.buttons');
+    let buttons = buttoncontainer.querySelectorAll('button');
+    buttons.forEach((button) => {
+        button.addEventListener('click', () => playRound(button.value,getComputerChoice()))
+    })
 
-        else{
-            compwins += 1;
-        }
-        console.log(stringresult)
-    }
+    let playerpoint = document.querySelector('#player');
 
-    console.log(`Player Won: ${playerwins} rounds
-    Computer Won: ${compwins} rounds
-    `)
+    
 
-    if(playerwins < compwins){
-        console.log('Unfortunately Computer Won this game.\n Better luck next time.')
-    }
-    else{
-        console.log('Congrats Player Won.')
-    }
+    // console.log(`Player Won: ${playerwins} rounds
+    // Computer Won: ${compwins} rounds
+    // `)
+
+    // if(playerwins < compwins){
+    //     console.log('Unfortunately Computer Won this game.\n Better luck next time.')
+    // }
+    // else{
+    //     console.log('Congrats Player Won.')
+    // }
 }
 
 
